@@ -1,0 +1,6 @@
+/**:
+  ros__parameters:
+    planning_pipelines:
+      - ompl
+    ompl:
+      planning_plugin: ompl_interface/OMPLPlanner

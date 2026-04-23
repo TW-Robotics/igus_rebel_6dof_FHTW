@@ -1,0 +1,25 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: igus_rebel_description_real
+    relative_path: urdf/igus_complete.urdf.xacro
+  srdf:
+    relative_path: config/igus_complete.srdf
+  package_settings:
+    author_name: Michael Schebek
+    author_email: michael.schebek@technikum-wien.at
+    generated_timestamp: 1770306733
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity
+  modified_urdf:
+    xacros:
+      - control_xacro
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity
