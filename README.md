@@ -51,12 +51,15 @@ Launch hardware interface, controller:
 ros2 launch igus_rebel rebel.launch.py
 ```
 
-Launch moveit motionn planner and teleoperation mode:
+Launch moveit motion planner and teleoperation mode:
 
 ```bash
 ros2 launch igus_rebel_moveit_config igus_rebel_motion_planner.launch.py use_gui:=true
 ```
-
+Neu:
+```bash
+ros2 launch igus_rebel bringup_rebel_moveit.launch.py
+```
 ## Usage: on simulation
 
 To simulate the robot in Gazebo and control the simulated robot with MoveIt run:
@@ -96,3 +99,13 @@ ros2 run igus_rebel_moveit_config rebel_servo_teleop_keyboard
 ```
 
 Type "w" and "t" to control the TCP in world frame. Then use arrow keys and ".", ";" to move the TCP forth/back/left/right/down/up
+
+## Realsense
+
+
+```bash
+ros2 launch realsense2_camera rs_launch.py
+```
+
+
+
