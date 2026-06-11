@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="igus_rebel">
+
+  <!-- ARGUMENTE: MUSS VOR INCLUDES -->
+  <xacro:arg name="hardware_protocol" default="rebel"/>
+  <xacro:arg name="gripper_stl" default="$(find igus_rebel_description_real)/meshes/my_ee/my_ee.stl"/>
+  <xacro:arg name="gripper_mass" default="0.5"/>
+  <xacro:arg name="gripper_length" default="0.1"/>
+
+  <!-- BASIS ROBOTER -->
+  <xacro:include filename="$(find igus_rebel_description_real)/urdf/igus_rebel2.urdf" />
+  <xacro:include filename="$(find igus_rebel_description_real)/urdf/igus_rebel2.control.xacro"/>
+  <xacro:igus_rebel_control arm_id="rebel_arm" hardware_protocol="$(arg hardware_protocol)"/>
+
+  <!-- ENDEFFEKTOR -->
+  <link name="gripper_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="$(arg gripper_stl)" scale="1 1 1"/>
+      </geometry>
+      <material name="gray">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="$(arg gripper_stl)" scale="1 1 1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="$(arg gripper_mass)"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </inertial>
+  </link>
+
+  <joint name="wrist_to_gripper" type="fixed">
+    <parent link="link6"/> <!-- Letzter Link im Arm -->
+    <child link="gripper_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- WORLD -->
+  <link name="world" />
+
+  <joint name="world_joint" type="fixed">
+    <parent link="world" />
+    <child link="base_link" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+
+</robot>
