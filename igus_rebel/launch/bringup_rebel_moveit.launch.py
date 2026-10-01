@@ -106,6 +106,16 @@ def generate_launch_description():
         condition=IfCondition(LaunchConfiguration("foxglove")),
     )
 
+    # Buttons/status for the Foxglove "Robot Control" panel (waits for move_group, respawns until it is up)
+    foxglove_control = Node(
+        package="plant_manipulation",
+        executable="foxglove_control",
+        output="screen",
+        respawn=True,
+        respawn_delay=3.0,
+        condition=IfCondition(LaunchConfiguration("foxglove")),
+    )
+
     # Give ros2_control spawners a moment before MoveIt connects
     delayed_move_group = TimerAction(period=3.0, actions=[move_group_launch])
 
@@ -153,5 +163,6 @@ def generate_launch_description():
             gripper_node,
             foxglove_bridge,
             octomap_server,
+            foxglove_control,
         ]
     )
