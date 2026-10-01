@@ -212,7 +212,7 @@
     <axis
       xyz="0 -1 0" />
     <limit
-      lower="-1.3800"
+      lower="-1.3500"
       upper="2.4435"
       effort="330"
       velocity="2.16" />
@@ -307,7 +307,7 @@
       xyz="0 -1 0" />
     <limit
       lower="-1.39626"
-      upper="2.4300"
+      upper="2.4000"
       effort="330"
       velocity="2.16" />
     <dynamics
