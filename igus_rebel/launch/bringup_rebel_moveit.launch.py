@@ -77,7 +77,7 @@ def generate_launch_description():
     )
 
     # Schunk gripper on DO30 (open) / DO31 (close); MoveIt GripperCommand action + jaw joint state
-    gripper_node = Node(package="igus_rebel", executable="gripper_node.py", output="screen")
+    gripper_node = Node(package="igus_rebel", executable="gripper_node.py", output="screen", respawn=True, respawn_delay=2.0)
 
     # Give ros2_control spawners a moment before MoveIt connects
     delayed_move_group = TimerAction(period=3.0, actions=[move_group_launch])
