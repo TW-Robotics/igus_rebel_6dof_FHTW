@@ -75,6 +75,12 @@ def generate_launch_description():
         )
     )
 
+    gripper_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(get_package_share_directory("igus_scene"), "launch", "gripper.launch.py")
+        )
+    )
+
     # Give ros2_control spawners a moment before MoveIt connects
     delayed_move_group = TimerAction(period=3.0, actions=[move_group_launch])
 
@@ -114,5 +120,6 @@ def generate_launch_description():
             OpaqueFunction(function=_schedule_realsense),
             delayed_move_group,
             shelf_launch,
+            gripper_launch,
         ]
     )
