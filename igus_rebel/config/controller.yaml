@@ -35,12 +35,12 @@ rebel_arm_trajectory_controller:
       joint6: { trajectory: 0.5, goal: 0.02 }
 
     gains:
-      joint1: { p: 2.0, d: 0.0, i: 0.5, i_clamp: 0.05, ff_velocity_scale: 1.0 }
-      joint2: { p: 2.0, d: 0.0, i: 0.5, i_clamp: 0.05, ff_velocity_scale: 1.0 }
-      joint3: { p: 2.0, d: 0.0, i: 0.5, i_clamp: 0.05, ff_velocity_scale: 1.0 }
-      joint4: { p: 2.0, d: 0.0, i: 0.5, i_clamp: 0.05, ff_velocity_scale: 1.0 }
-      joint5: { p: 2.0, d: 0.0, i: 0.5, i_clamp: 0.05, ff_velocity_scale: 1.0 }
-      joint6: { p: 2.0, d: 0.0, i: 0.5, i_clamp: 0.05, ff_velocity_scale: 1.0 }
+      joint1: { p: 2.0, d: 0.0, i: 1.0, i_clamp: 0.05, ff_velocity_scale: 1.0 }
+      joint2: { p: 2.0, d: 0.0, i: 1.0, i_clamp: 0.05, ff_velocity_scale: 1.0 }
+      joint3: { p: 2.0, d: 0.0, i: 1.0, i_clamp: 0.05, ff_velocity_scale: 1.0 }
+      joint4: { p: 2.0, d: 0.0, i: 1.0, i_clamp: 0.05, ff_velocity_scale: 1.0 }
+      joint5: { p: 2.0, d: 0.0, i: 1.0, i_clamp: 0.05, ff_velocity_scale: 1.0 }
+      joint6: { p: 2.0, d: 0.0, i: 1.0, i_clamp: 0.05, ff_velocity_scale: 1.0 }
 
 rebel_arm_velocity_controller:
   ros__parameters:
