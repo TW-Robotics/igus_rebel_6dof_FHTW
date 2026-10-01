@@ -110,6 +110,15 @@ def opaque_func(context, *args, **kwargs):
     }
     ompl_context = ompl_params
  
+    sensors_file = PathJoinSubstitution(
+        [
+            FindPackageShare("igus_rebel_moveit_fhtw"),
+            "config",
+            "sensors_3d.yaml",
+        ]
+    )
+    sensors_3d = load_yaml(Path(sensors_file.perform(context)))
+
     moveit_controllers = {
         "moveit_simple_controller_manager": controllers_dict,
         "moveit_controller_manager": "moveit_simple_controller_manager/MoveItSimpleControllerManager",
@@ -148,6 +157,7 @@ def opaque_func(context, *args, **kwargs):
             "publish_transforms_updates": True,
         },
         ompl_context,
+        sensors_3d,
     ]
  
     # Concatenate all dictionaries together, else moveitpy won't read all parameters
