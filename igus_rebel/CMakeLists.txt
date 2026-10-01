@@ -56,6 +56,12 @@ install(FILES
 )
 
 # Install package folders
+install(PROGRAMS
+  scripts/gripper_node.py
+  scripts/gripper_cmd.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 install(DIRECTORY
   config
   launch

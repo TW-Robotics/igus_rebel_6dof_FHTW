@@ -292,6 +292,16 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          schunk_jaw_left:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          schunk_jaw_right:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           tool0:
             Alpha: 1
             Show Axes: false
@@ -323,7 +333,7 @@ Visualization Manager:
         Goal State Color: 250; 128; 0
         Interactive Marker Size: 0
         Joint Violation Color: 255; 0; 255
-        Planning Group: igus_rebel_arm
+        Planning Group: gripper
         Query Goal State: true
         Query Start State: false
         Show Workspace: false
@@ -475,6 +485,16 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          schunk_jaw_left:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          schunk_jaw_right:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           tool0:
             Alpha: 1
             Show Axes: false
@@ -581,25 +601,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 3.5349693298339844
+      Distance: 1.727626919746399
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.39997541904449463
-        Y: -0.188590869307518
-        Z: 0.694487988948822
+        X: 0.32536521553993225
+        Y: -0.21239124238491058
+        Z: 0.7269015908241272
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.3553984463214874
+      Pitch: 0.15539851784706116
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 2.4603989124298096
+      Yaw: 1.7753989696502686
     Saved: ~
 Window Geometry:
   Displays:

@@ -1,3 +1,4 @@
+from launch_ros.actions import Node
 """Bring up rebel + MoveIt (FHTW) + RealSense (optional point cloud for RViz)."""
 
 import os
@@ -75,11 +76,8 @@ def generate_launch_description():
         )
     )
 
-    gripper_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory("igus_scene"), "launch", "gripper.launch.py")
-        )
-    )
+    # Schunk gripper on DO30 (open) / DO31 (close); MoveIt GripperCommand action + jaw joint state
+    gripper_node = Node(package="igus_rebel", executable="gripper_node.py", output="screen")
 
     # Give ros2_control spawners a moment before MoveIt connects
     delayed_move_group = TimerAction(period=3.0, actions=[move_group_launch])
@@ -120,6 +118,6 @@ def generate_launch_description():
             OpaqueFunction(function=_schedule_realsense),
             delayed_move_group,
             shelf_launch,
-            gripper_launch,
+            gripper_node,
         ]
     )
