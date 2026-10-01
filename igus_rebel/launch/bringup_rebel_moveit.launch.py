@@ -32,6 +32,9 @@ def _schedule_realsense(context, *args, **kwargs):
             "pointcloud.enable": realsense_pointcloud,
             # Hardware-reset the camera on start; it otherwise sometimes delivers no frames ("Frames didn't arrive")
             "initial_reset": "true",
+            # 640x480 keeps the point cloud light enough for a fast octomap
+            "depth_module.depth_profile": "640,480,30",
+            "rgb_camera.color_profile": "640,480,30",
         }.items(),
     )
     group = GroupAction(

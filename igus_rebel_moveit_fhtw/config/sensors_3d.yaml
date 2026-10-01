@@ -4,11 +4,11 @@ sensors:
 realsense:
   sensor_plugin: occupancy_map_monitor/PointCloudOctomapUpdater
   point_cloud_topic: /camera/camera/depth/color/points
-  max_range: 1.5            # m, ignore everything further away
-  point_subsample: 4        # use every 4th point (1280x720 cloud is heavy)
+  max_range: 1.2            # m, ignore everything further away
+  point_subsample: 2        # use every 2nd point
   padding_offset: 0.03      # m, robot self-filter margin
   padding_scale: 1.0
-  max_update_rate: 5.0      # Hz
+  max_update_rate: 15.0     # Hz
   filtered_cloud_topic: /camera/filtered_points
 octomap_frame: world
-octomap_resolution: 0.02    # m voxel size
+octomap_resolution: 0.01    # m voxel size
