@@ -103,10 +103,23 @@ def opaque_func(context, *args, **kwargs):
         ompl_context = ompl_config
     
     # Structure according to MoveIt2 documentation: flat at root level
+    # Pilz industrial motion planner (PTP / LIN / CIRC) as second pipeline
+    pilz_file = PathJoinSubstitution(
+        [
+            FindPackageShare("igus_rebel_moveit_fhtw"),
+            "config",
+            "pilz_industrial_motion_planner_planning.yaml",
+        ]
+    )
+    pilz_context = load_yaml(Path(pilz_file.perform(context)))
+    pilz_capabilities = pilz_context.pop("capabilities", "")
+
     ompl_params = {
-        "planning_pipelines": ["ompl"],  # List of pipeline names
+        "planning_pipelines": ["ompl", "pilz_industrial_motion_planner"],  # List of pipeline names
         "default_planning_pipeline": "ompl",  # Default pipeline name
-        "ompl": ompl_context  # All OMPL config (planning_plugins, request_adapters, planner_configs, etc.)
+        "ompl": ompl_context,  # All OMPL config (planning_plugins, request_adapters, planner_configs, etc.)
+        "pilz_industrial_motion_planner": pilz_context,
+        "capabilities": pilz_capabilities,
     }
     ompl_context = ompl_params
  

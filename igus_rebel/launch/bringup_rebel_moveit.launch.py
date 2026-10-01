@@ -68,6 +68,13 @@ def generate_launch_description():
         }.items(),
     )
 
+    # Static shelf collision object (waits for move_group itself)
+    shelf_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(get_package_share_directory("igus_scene"), "launch", "shelf.launch.py")
+        )
+    )
+
     # Give ros2_control spawners a moment before MoveIt connects
     delayed_move_group = TimerAction(period=3.0, actions=[move_group_launch])
 
@@ -106,5 +113,6 @@ def generate_launch_description():
             rebel_launch,
             OpaqueFunction(function=_schedule_realsense),
             delayed_move_group,
+            shelf_launch,
         ]
     )

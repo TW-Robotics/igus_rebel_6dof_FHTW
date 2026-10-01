@@ -6,6 +6,9 @@
 #include <string>
 #include <list>
 
+#include <atomic>
+#include <chrono>
+#include <condition_variable>
 #include <thread>
 #include <mutex>
 
@@ -14,44 +17,51 @@ namespace Igus
     class RebelSocket
     {
     private:
-        int sock;
+        std::atomic<int> sock{-1};
         std::string ip;
         int port;
-        int timeout;
+        int timeout; // Receive timeout in ms, so the receive thread can notice a stop request
         std::list<std::string> unprocessedMessages;
 
-        bool continueReceive = false;
+        std::atomic<bool> continueReceive{false};
+        std::atomic<bool> connected{false};
+        std::atomic<unsigned int> connectionCount{0};
         std::thread receiveThread;
-        std::thread listCheckThread;
         std::mutex socketWriteLock;
-        std::mutex connectionLock;
         std::mutex messageLock;
-        unsigned long maxUnprocessedMessages = 25;
-        int listCheckWaitMs = 500;
+        std::condition_variable messageCondition;
+        unsigned long maxUnprocessedMessages = 200;
+        std::chrono::steady_clock::time_point lastDiscardWarning;
 
-        bool connectionNeeded = false;
-        static const int bufferSize = 4096;
+        static constexpr int bufferSize = 4096;
+        static constexpr int sendTimeoutMs = 1000;
+        static constexpr int reconnectWaitMs = 500;
 
-        char fragmentBuffer[bufferSize];
-        int fragmentLength = 0;
+        // Bytes received but not yet split into complete messages (only used by the receive thread)
+        std::string receiveBuffer;
+        bool connectFailureLogged = false;
 
-        void MakeConnection();
-        void SeparateMessages(const char *);
+        bool OpenConnection();
+        void CloseConnection();
+        void SeparateMessages();
+        void PushMessage(std::string &&);
 
         void ReceiveThreadFunction();
-        void ListCheckThreadFunction();
-
-        bool IsSocketOk();
 
     public:
         RebelSocket(const std::string &, const int &, const int &);
         ~RebelSocket();
 
-        void Start();
+        // Connects to the robot (retrying for at most connectTimeoutMs) and starts receiving.
+        // Returns false if no connection could be made in time.
+        bool Start(const int &connectTimeoutMs);
         void Stop();
-        bool HasMessage();
-        std::string GetMessage();
-        void SendMessage(const std::string &);
+        bool IsConnected() const;
+        // Incremented on every successful (re)connect, so users can detect reconnects.
+        unsigned int ConnectionCount() const;
+        // Waits up to timeoutMs for a message. Returns false if none arrived.
+        bool WaitForMessage(std::string &, const int &timeoutMs);
+        bool SendMessage(const std::string &);
     };
 }
 

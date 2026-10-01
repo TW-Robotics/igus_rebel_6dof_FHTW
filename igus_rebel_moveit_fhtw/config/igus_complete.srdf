@@ -112,4 +112,14 @@
     <disable_collisions link1="motor3" link2="motor4" reason="Never"/>
     <disable_collisions link1="motor3" link2="motor5" reason="Never"/>
     <disable_collisions link1="motor4" link2="motor5" reason="Never"/>
+    <disable_collisions link1="schunk" link2="endeffector_plate" reason="Adjacent"/>
+    <disable_collisions link1="schunk" link2="camera_link" reason="Never"/>
+    <disable_collisions link1="schunk" link2="camera_usb_plug_link" reason="Never"/>
+    <disable_collisions link1="schunk" link2="link3" reason="Never"/>
+    <disable_collisions link1="schunk" link2="link4" reason="Never"/>
+    <disable_collisions link1="schunk" link2="link5" reason="Never"/>
+    <disable_collisions link1="schunk" link2="link6" reason="Never"/>
+    <disable_collisions link1="schunk" link2="motor3" reason="Never"/>
+    <disable_collisions link1="schunk" link2="motor4" reason="Never"/>
+    <disable_collisions link1="schunk" link2="motor5" reason="Never"/>
 </robot>

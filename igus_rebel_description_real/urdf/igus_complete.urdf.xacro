@@ -38,11 +38,12 @@
     <origin xyz="0 0 0" rpy="0 -1.57079632679 -1.57079632679"/>
   </xacro:sensor_d435> 
   
-   <link name="schunk">
+  <!-- Schunk gripper, ~14 cm long -->
+  <link name="schunk">
    <visual>
      <origin xyz="0 0 0" rpy="0 0 0" />
      <geometry>
-       <box size="0.07 0.035 0.125" />
+       <box size="0.07 0.035 0.14" />
      </geometry>
      <material name="Cyan">
        <color rgba="0 1.0 1.0 1.0"/>
@@ -51,16 +52,23 @@
    <collision>
      <origin xyz="0 0 0" rpy="0 0 0"/>
      <geometry>
-       <box size="0.07 0.035 0.125" />
+       <box size="0.07 0.035 0.14" />
      </geometry>
    </collision>
  </link>
  
+ 
  <link name="TCPGripper"/>
    <joint name="fixed_to_TCP" type="fixed" >
-    <origin xyz="0 0 0.0625" rpy="0 0 3.1415" />
+    <origin xyz="0 0 0.07" rpy="0 0 3.1415" />
     <parent link="schunk" />
     <child link="TCPGripper"/>
+  </joint> 
+  
+    <joint name="fixed_to_gripper" type="fixed" >
+    <origin xyz="0 0 0.07" rpy="0 0 0" />
+    <parent link="endeffector_plate" />
+    <child link="schunk"/>
   </joint> 
   
   
@@ -91,11 +99,7 @@
     <child link="d435_base_link"/>
   </joint>
   
-  <joint name="fixed_to_gripper" type="fixed" >
-    <origin xyz="0 0 0.0625" rpy="0 0 0" />
-    <parent link="endeffector_plate" />
-    <child link="schunk"/>
-  </joint> 
+
   
   
   

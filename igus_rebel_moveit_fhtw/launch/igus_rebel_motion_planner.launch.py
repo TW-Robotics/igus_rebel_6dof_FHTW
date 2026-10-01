@@ -12,9 +12,9 @@ def generate_launch_description():
     debug_arg = DeclareLaunchArgument(
         'debug', default_value='false', description='')
     load_robot_description_arg = DeclareLaunchArgument(
-        'load_robot_description', default_value='false', description='')
+        'load_robot_description', default_value='true', description='')
     use_gui_arg = DeclareLaunchArgument(
-        'use_gui', default_value='false', description='')
+        'use_gui', default_value='true', description='')
     
     moveit_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
