@@ -36,6 +36,19 @@
         <joint name="joint6" value="0"/>
     </group_state>
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <group name="gripper">
+        <link name="schunk"/>
+        <link name="schunk_jaw_left"/>
+        <link name="schunk_jaw_right"/>
+        <joint name="schunk_jaw_left_joint"/>
+    </group>
+    <group_state name="open" group="gripper">
+        <joint name="schunk_jaw_left_joint" value="0.006"/>
+    </group_state>
+    <group_state name="closed" group="gripper">
+        <joint name="schunk_jaw_left_joint" value="0"/>
+    </group_state>
+    <end_effector name="schunk_gripper" parent_link="endeffector_plate" group="gripper" parent_group="igus_rebel_arm"/>
     <disable_collisions link1="base_link" link2="base_plate" reason="Adjacent"/>
     <disable_collisions link1="base_link" link2="link1" reason="Never"/>
     <disable_collisions link1="base_link" link2="link2" reason="Never"/>
@@ -122,4 +135,27 @@
     <disable_collisions link1="schunk" link2="motor3" reason="Never"/>
     <disable_collisions link1="schunk" link2="motor4" reason="Never"/>
     <disable_collisions link1="schunk" link2="motor5" reason="Never"/>
+    <disable_collisions link1="schunk_jaw_left" link2="schunk" reason="Never"/>
+    <disable_collisions link1="schunk_jaw_left" link2="camera_link" reason="Never"/>
+    <disable_collisions link1="schunk_jaw_left" link2="camera_usb_plug_link" reason="Never"/>
+    <disable_collisions link1="schunk_jaw_left" link2="endeffector_plate" reason="Never"/>
+    <disable_collisions link1="schunk_jaw_left" link2="link3" reason="Never"/>
+    <disable_collisions link1="schunk_jaw_left" link2="link4" reason="Never"/>
+    <disable_collisions link1="schunk_jaw_left" link2="link5" reason="Never"/>
+    <disable_collisions link1="schunk_jaw_left" link2="link6" reason="Never"/>
+    <disable_collisions link1="schunk_jaw_left" link2="motor3" reason="Never"/>
+    <disable_collisions link1="schunk_jaw_left" link2="motor4" reason="Never"/>
+    <disable_collisions link1="schunk_jaw_left" link2="motor5" reason="Never"/>
+    <disable_collisions link1="schunk_jaw_right" link2="schunk" reason="Never"/>
+    <disable_collisions link1="schunk_jaw_right" link2="camera_link" reason="Never"/>
+    <disable_collisions link1="schunk_jaw_right" link2="camera_usb_plug_link" reason="Never"/>
+    <disable_collisions link1="schunk_jaw_right" link2="endeffector_plate" reason="Never"/>
+    <disable_collisions link1="schunk_jaw_right" link2="link3" reason="Never"/>
+    <disable_collisions link1="schunk_jaw_right" link2="link4" reason="Never"/>
+    <disable_collisions link1="schunk_jaw_right" link2="link5" reason="Never"/>
+    <disable_collisions link1="schunk_jaw_right" link2="link6" reason="Never"/>
+    <disable_collisions link1="schunk_jaw_right" link2="motor3" reason="Never"/>
+    <disable_collisions link1="schunk_jaw_right" link2="motor4" reason="Never"/>
+    <disable_collisions link1="schunk_jaw_right" link2="motor5" reason="Never"/>
+    <disable_collisions link1="schunk_jaw_left" link2="schunk_jaw_right" reason="Never"/>
 </robot>

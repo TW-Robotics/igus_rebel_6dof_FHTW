@@ -38,40 +38,76 @@
     <origin xyz="0 0 0" rpy="0 -1.57079632679 -1.57079632679"/>
   </xacro:sensor_d435> 
   
-  <!-- Schunk gripper, ~14 cm long -->
+  <!-- Schunk gripper, ~14 cm long. Link origin is the middle of the gripper (7 cm above the plate). -->
+  <xacro:property name="jaw_stroke" value="0.006"/>  <!-- travel per jaw, open - closed [m] -->
+  <xacro:property name="jaw_closed_x" value="0.008"/> <!-- jaw centre offset when closed [m] -->
+
+  <material name="schunk_alu"><color rgba="0.75 0.75 0.78 1.0"/></material>
+  <material name="schunk_black"><color rgba="0.1 0.1 0.1 1.0"/></material>
+
   <link name="schunk">
-   <visual>
-     <origin xyz="0 0 0" rpy="0 0 0" />
-     <geometry>
-       <box size="0.07 0.035 0.14" />
-     </geometry>
-     <material name="Cyan">
-       <color rgba="0 1.0 1.0 1.0"/>
-     </material>
-   </visual>
-   <collision>
-     <origin xyz="0 0 0" rpy="0 0 0"/>
-     <geometry>
-       <box size="0.07 0.035 0.14" />
-     </geometry>
-   </collision>
- </link>
- 
- 
- <link name="TCPGripper"/>
-   <joint name="fixed_to_TCP" type="fixed" >
-    <origin xyz="0 0 0.07" rpy="0 0 3.1415" />
-    <parent link="schunk" />
+    <!-- black adapter plate on the flange -->
+    <visual>
+      <origin xyz="0 0 -0.0625" rpy="0 0 0"/>
+      <geometry><box size="0.075 0.04 0.015"/></geometry>
+      <material name="schunk_black"/>
+    </visual>
+    <!-- aluminium body -->
+    <visual>
+      <origin xyz="0 0 0.0" rpy="0 0 0"/>
+      <geometry><box size="0.07 0.035 0.11"/></geometry>
+      <material name="schunk_alu"/>
+    </visual>
+    <!-- black jaw guide at the front -->
+    <visual>
+      <origin xyz="0 0 0.0525" rpy="0 0 0"/>
+      <geometry><box size="0.07 0.035 0.005"/></geometry>
+      <material name="schunk_black"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.005" rpy="0 0 0"/>
+      <geometry><box size="0.075 0.04 0.13"/></geometry>
+    </collision>
+  </link>
+
+  <xacro:macro name="schunk_jaw" params="side sign">
+    <link name="schunk_jaw_${side}">
+      <visual>
+        <geometry><box size="0.012 0.03 0.02"/></geometry>
+        <material name="schunk_black"/>
+      </visual>
+      <collision>
+        <geometry><box size="0.012 0.03 0.02"/></geometry>
+      </collision>
+    </link>
+    <joint name="schunk_jaw_${side}_joint" type="prismatic">
+      <parent link="schunk"/>
+      <child link="schunk_jaw_${side}"/>
+      <origin xyz="${sign*jaw_closed_x} 0 0.065" rpy="0 0 0"/>
+      <axis xyz="${sign} 0 0"/>
+      <limit lower="0.0" upper="${jaw_stroke}" effort="100" velocity="0.1"/>
+      <xacro:if value="${side == 'right'}">
+        <mimic joint="schunk_jaw_left_joint" multiplier="1" offset="0"/>
+      </xacro:if>
+    </joint>
+  </xacro:macro>
+  <xacro:schunk_jaw side="left" sign="1"/>
+  <xacro:schunk_jaw side="right" sign="-1"/>
+
+  <!-- Tool centre point between the jaws -->
+  <link name="TCPGripper"/>
+  <joint name="fixed_to_TCP" type="fixed">
+    <origin xyz="0 0 0.065" rpy="0 0 3.1415"/>
+    <parent link="schunk"/>
     <child link="TCPGripper"/>
-  </joint> 
-  
-    <joint name="fixed_to_gripper" type="fixed" >
-    <origin xyz="0 0 0.07" rpy="0 0 0" />
-    <parent link="endeffector_plate" />
+  </joint>
+
+  <joint name="fixed_to_gripper" type="fixed">
+    <origin xyz="0 0 0.07" rpy="0 0 0"/>
+    <parent link="endeffector_plate"/>
     <child link="schunk"/>
-  </joint> 
-  
-  
+  </joint>
+
 <!-- === Joints === -->
   
   <joint name="fixed_to_base_plate" type="fixed" >
