@@ -24,6 +24,7 @@
       <geometry>
         <mesh filename="package://igus_rebel_description_real/meshes/rebel_original/base_link.stl" />
       </geometry>
+      <material name="rebel_dark"><color rgba="0.15 0.15 0.15 1.0"/></material>
     </visual>
     <collision>
       <geometry>
@@ -54,6 +55,7 @@
       <geometry>
         <mesh filename="package://igus_rebel_description_real/meshes/rebel_original/motor1.stl" />
       </geometry>
+      <material name="rebel_dark"><color rgba="0.15 0.15 0.15 1.0"/></material>
     </visual>
     <collision>
       <geometry>
@@ -95,6 +97,7 @@
       <geometry>
         <mesh filename="package://igus_rebel_description_real/meshes/rebel_original/link1.stl" />
       </geometry>
+      <material name="rebel_dark"><color rgba="0.15 0.15 0.15 1.0"/></material>
     </visual>
     <collision>
       <geometry>
@@ -146,6 +149,7 @@
       <geometry>
         <mesh filename="package://igus_rebel_description_real/meshes/rebel_original/motor2.stl" />
       </geometry>
+      <material name="rebel_dark"><color rgba="0.15 0.15 0.15 1.0"/></material>
     </visual>
     <collision>
       <geometry>
@@ -187,6 +191,7 @@
       <geometry>
         <mesh filename="package://igus_rebel_description_real/meshes/rebel_original/link2.stl" />
       </geometry>
+      <material name="rebel_dark"><color rgba="0.15 0.15 0.15 1.0"/></material>
     </visual>
     <collision>
       <geometry>
@@ -238,6 +243,7 @@
       <geometry>
         <mesh filename="package://igus_rebel_description_real/meshes/rebel_original/motor3.stl" />
       </geometry>
+      <material name="rebel_dark"><color rgba="0.15 0.15 0.15 1.0"/></material>
     </visual>
     <collision>
       <geometry>
@@ -279,6 +285,7 @@
       <geometry>
         <mesh filename="package://igus_rebel_description_real/meshes/rebel_original/link3.stl" />
       </geometry>
+      <material name="rebel_dark"><color rgba="0.15 0.15 0.15 1.0"/></material>
     </visual>
     <collision>
       <geometry>
@@ -330,6 +337,7 @@
       <geometry>
         <mesh filename="package://igus_rebel_description_real/meshes/rebel_original/motor4.stl" />
       </geometry>
+      <material name="rebel_dark"><color rgba="0.15 0.15 0.15 1.0"/></material>
     </visual>
     <collision>
       <geometry>
@@ -371,6 +379,7 @@
       <geometry>
         <mesh filename="package://igus_rebel_description_real/meshes/rebel_original/link4.stl" />
       </geometry>
+      <material name="rebel_dark"><color rgba="0.15 0.15 0.15 1.0"/></material>
     </visual>
     <collision>
       <geometry>
@@ -422,6 +431,7 @@
       <geometry>
         <mesh filename="package://igus_rebel_description_real/meshes/rebel_original/motor5.stl" />
       </geometry>
+      <material name="rebel_dark"><color rgba="0.15 0.15 0.15 1.0"/></material>
     </visual>
     <collision>
       <geometry>
@@ -463,6 +473,7 @@
       <geometry>
         <mesh filename="package://igus_rebel_description_real/meshes/rebel_original/link5.stl" />
       </geometry>
+      <material name="rebel_dark"><color rgba="0.15 0.15 0.15 1.0"/></material>
     </visual>
     <collision>
       <geometry>
@@ -514,6 +525,7 @@
       <geometry>
         <mesh filename="package://igus_rebel_description_real/meshes/rebel_original/link6.stl" />
       </geometry>
+      <material name="rebel_dark"><color rgba="0.15 0.15 0.15 1.0"/></material>
     </visual>
     <collision>
       <geometry>
