@@ -35,6 +35,8 @@ def _schedule_realsense(context, *args, **kwargs):
             # 640x480 keeps the point cloud light enough for a fast octomap
             "depth_module.depth_profile": "640,480,30",
             "rgb_camera.color_profile": "640,480,30",
+            # depth pixel-aligned to colour, used by plant_manipulation/plant_detector
+            "align_depth.enable": "true",
         }.items(),
     )
     group = GroupAction(
