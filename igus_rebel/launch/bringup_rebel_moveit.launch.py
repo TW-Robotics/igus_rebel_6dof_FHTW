@@ -30,6 +30,8 @@ def _schedule_realsense(context, *args, **kwargs):
         ),
         launch_arguments={
             "pointcloud.enable": realsense_pointcloud,
+            # Hardware-reset the camera on start; it otherwise sometimes delivers no frames ("Frames didn't arrive")
+            "initial_reset": "true",
         }.items(),
     )
     group = GroupAction(
