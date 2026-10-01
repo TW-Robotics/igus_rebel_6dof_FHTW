@@ -1,0 +1,24 @@
+# Shelf next to the igus ReBeL. All values in metres / radians, relative to base_link
+# (origin = centre of the robot base, on the mounting plate).
+#
+# Shelf-local frame: x = along the shelf width, y = from the open front towards the back,
+# z = up. The shelf origin is the middle of the FRONT edge, at base height.
+shelf_scene:
+  ros__parameters:
+    frame_id: "world"
+
+    # Where the shelf origin sits relative to the robot, and which way it is turned.
+    # Tune these until the box lines up with reality in RViz.
+    x: 0.26
+    y: 0.50          # 50 cm to the side of the robot
+    yaw: 0.0         # rotation about z; pi turns the shelf to the other side
+
+    width: 1.00      # along the front edge
+    depth: 0.45      # front to back
+    board_heights: [0.0, 0.23, 0.46, 0.69]   # each shelf ~23 cm apart, first at base height
+    board_thickness: 0.03
+    top_height: 0.92 # top frame
+    bottom_height: -0.80  # posts go down to the floor (relative to base height)
+    post_size: 0.04
+    back_wall: false
+    back_wall_thickness: 0.01
