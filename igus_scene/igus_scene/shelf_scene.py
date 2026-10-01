@@ -7,6 +7,8 @@ from moveit_msgs.msg import PlanningSceneComponents
 from moveit_msgs.srv import ApplyPlanningScene, GetPlanningScene
 from rclpy.node import Node
 from shape_msgs.msg import SolidPrimitive
+from rclpy.qos import DurabilityPolicy, QoSProfile
+from visualization_msgs.msg import Marker, MarkerArray
 
 
 class ShelfScene(Node):
@@ -36,6 +38,10 @@ class ShelfScene(Node):
         self.warned = False
         # move_group can reset its scene while starting, so keep checking and re-add when missing
         self.timer = self.create_timer(2.0, self.check)
+        # Same boxes as markers, for Foxglove (it cannot show MoveIt's planning scene)
+        latched = QoSProfile(depth=1, durability=DurabilityPolicy.TRANSIENT_LOCAL)
+        self.marker_pub = self.create_publisher(MarkerArray, "/scene_markers", latched)
+        self.marker_pub.publish(self.markers())
 
     def boxes(self):
         """Boxes as (size_x, size_y, size_z, cx, cy, cz) in the shelf-local frame."""
@@ -73,6 +79,17 @@ class ShelfScene(Node):
             obj.primitives.append(prim)
             obj.primitive_poses.append(pose)
         return obj
+
+    def markers(self):
+        obj = self.collision_object()
+        out = MarkerArray()
+        for i, (prim, pose) in enumerate(zip(obj.primitives, obj.primitive_poses)):
+            m = Marker(type=Marker.CUBE, action=Marker.ADD, id=i, ns="shelf", pose=pose)
+            m.header.frame_id = obj.header.frame_id
+            m.scale.x, m.scale.y, m.scale.z = prim.dimensions
+            m.color.r, m.color.g, m.color.b, m.color.a = 0.6, 0.6, 0.65, 0.8
+            out.markers.append(m)
+        return out
 
     def check(self):
         if self.busy:

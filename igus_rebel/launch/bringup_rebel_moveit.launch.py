@@ -84,6 +84,28 @@ def generate_launch_description():
     # Schunk gripper on DO30 (open) / DO31 (close); MoveIt GripperCommand action + jaw joint state
     gripper_node = Node(package="igus_rebel", executable="gripper_node.py", output="screen", respawn=True, respawn_delay=2.0)
 
+    # Foxglove: ws://<this-pc>:8765 - robot (URDF+TF), shelf (/scene_markers),
+    # octomap (/occupied_cells_vis_array), camera (/camera/camera/color/image_raw/compressed)
+    foxglove_bridge = Node(
+        package="foxglove_bridge",
+        executable="foxglove_bridge",
+        parameters=[{"port": 8765, "send_buffer_limit": 100000000}],
+        condition=IfCondition(LaunchConfiguration("foxglove")),
+    )
+
+    # Mirror of MoveIt's octomap for Foxglove, built from MoveIt's robot-filtered cloud
+    octomap_server = Node(
+        package="octomap_server",
+        executable="octomap_server_node",
+        parameters=[{
+            "resolution": 0.01,
+            "frame_id": "world",
+            "sensor_model.max_range": 1.2,
+        }],
+        remappings=[("cloud_in", "/camera/filtered_points")],
+        condition=IfCondition(LaunchConfiguration("foxglove")),
+    )
+
     # Give ros2_control spawners a moment before MoveIt connects
     delayed_move_group = TimerAction(period=3.0, actions=[move_group_launch])
 
@@ -105,6 +127,11 @@ def generate_launch_description():
                 description="Start RViz from move_group.launch.py",
             ),
             DeclareLaunchArgument(
+                "foxglove",
+                default_value="true",
+                description="Start foxglove_bridge (port 8765) and octomap_server for visualisation",
+            ),
+            DeclareLaunchArgument(
                 "launch_realsense",
                 default_value="true",
                 description="If false, skip camera; run rs_launch.py yourself with any args",
@@ -124,5 +151,7 @@ def generate_launch_description():
             delayed_move_group,
             shelf_launch,
             gripper_node,
+            foxglove_bridge,
+            octomap_server,
         ]
     )
