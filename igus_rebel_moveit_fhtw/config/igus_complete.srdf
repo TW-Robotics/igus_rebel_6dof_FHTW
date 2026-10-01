@@ -57,6 +57,14 @@
         <joint name="schunk_jaw_left_joint" value="0"/>
     </group_state>
     <end_effector name="schunk_gripper" parent_link="endeffector_plate" group="gripper" parent_group="igus_rebel_arm"/>
+    <group_state name="look_at_shelf" group="igus_rebel_arm">
+        <joint name="joint1" value="0.1248"/>
+        <joint name="joint2" value="-0.8931"/>
+        <joint name="joint3" value="2.1108"/>
+        <joint name="joint4" value="-1.6279"/>
+        <joint name="joint5" value="-1.2826"/>
+        <joint name="joint6" value="0.7718"/>
+    </group_state>
     <disable_collisions link1="base_link" link2="base_plate" reason="Adjacent"/>
     <disable_collisions link1="base_link" link2="link1" reason="Never"/>
     <disable_collisions link1="base_link" link2="link2" reason="Never"/>

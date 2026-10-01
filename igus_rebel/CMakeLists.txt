@@ -59,6 +59,7 @@ install(FILES
 install(PROGRAMS
   scripts/gripper_node.py
   scripts/gripper_cmd.py
+  scripts/save_pose.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
