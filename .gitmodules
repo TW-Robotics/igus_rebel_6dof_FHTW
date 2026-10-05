@@ -1,0 +1,4 @@
+[submodule "plant_manipulation"]
+	path = plant_manipulation
+	url = https://github.com/TW-Robotics/plant_manipulation.git
+	branch = master
