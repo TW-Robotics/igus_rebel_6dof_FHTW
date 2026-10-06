@@ -2,3 +2,7 @@
 	path = plant_manipulation
 	url = https://github.com/TW-Robotics/plant_manipulation.git
 	branch = master
+[submodule "ripeness_estimation"]
+	path = ripeness_estimation
+	url = https://github.com/TW-Robotics/ripeness_estimation.git
+	branch = master
