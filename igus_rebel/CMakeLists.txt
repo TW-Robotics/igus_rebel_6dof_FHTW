@@ -12,10 +12,15 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(rcl_interfaces REQUIRED)
 find_package(rclpy REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(igus_rebel_msgs REQUIRED)
+find_package(moveit_msgs REQUIRED)
+find_package(octomap REQUIRED)
+find_package(octomap_msgs REQUIRED)
+find_package(visualization_msgs REQUIRED)
 
 find_package(hardware_interface REQUIRED)
 find_package(pluginlib REQUIRED)
@@ -48,6 +53,13 @@ install(TARGETS ${PROJECT_NAME}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
 )
+
+# Read-only visualization of the authoritative MoveIt octomap for Foxglove.
+add_executable(octomap_markers src/OctomapMarkers.cpp)
+ament_target_dependencies(octomap_markers rclcpp rcl_interfaces moveit_msgs octomap_msgs visualization_msgs)
+target_include_directories(octomap_markers PRIVATE ${OCTOMAP_INCLUDE_DIRS})
+target_link_libraries(octomap_markers ${OCTOMAP_LIBRARIES})
+install(TARGETS octomap_markers DESTINATION lib/${PROJECT_NAME})
 
 # Install the plugin description xml file
 install(FILES

@@ -6,3 +6,7 @@
 	path = ripeness_estimation
 	url = https://github.com/TW-Robotics/ripeness_estimation.git
 	branch = master
+[submodule "rebel_viz"]
+	path = rebel_viz
+	url = https://github.com/TW-Robotics/rebel_viz.git
+	branch = master

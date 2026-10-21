@@ -1,4 +1,5 @@
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
 """Bring up rebel + MoveIt (FHTW) + RealSense (optional point cloud for RViz)."""
 
 import os
@@ -19,10 +20,13 @@ from launch.substitutions import LaunchConfiguration
 
 def _schedule_realsense(context, *args, **kwargs):
     """Defer rs_launch.py so V4L2 is not contended during ros2_control / MoveIt init."""
+    if not IfCondition(LaunchConfiguration("launch_realsense")).evaluate(context):
+        return []
     delay_sec = float(LaunchConfiguration("realsense_start_delay").perform(context))
     realsense_share = get_package_share_directory("realsense2_camera")
-    launch_realsense = LaunchConfiguration("launch_realsense")
-    realsense_pointcloud = LaunchConfiguration("realsense_pointcloud")
+    # Resolve parent arguments before entering the isolated camera launch scope.
+    realsense_pointcloud = LaunchConfiguration("realsense_pointcloud").perform(context)
+    initial_reset = LaunchConfiguration("realsense_initial_reset").perform(context)
 
     realsense_inc = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -30,8 +34,8 @@ def _schedule_realsense(context, *args, **kwargs):
         ),
         launch_arguments={
             "pointcloud.enable": realsense_pointcloud,
-            # Hardware-reset the camera on start; it otherwise sometimes delivers no frames ("Frames didn't arrive")
-            "initial_reset": "true",
+            # Reset is opt-in: this D435i can disappear from USB after a hardware reset.
+            "initial_reset": initial_reset,
             # 640x480 keeps the point cloud light enough for a fast octomap
             "depth_module.depth_profile": "640,480,30",
             "rgb_camera.color_profile": "640,480,30",
@@ -40,7 +44,10 @@ def _schedule_realsense(context, *args, **kwargs):
         }.items(),
     )
     group = GroupAction(
-        condition=IfCondition(launch_realsense),
+        # rs_launch.py validates every launch configuration as a camera parameter.
+        # Do not forward robot, MoveIt, or object-map launch arguments into it.
+        scoped=True,
+        forwarding=False,
         actions=[realsense_inc],
     )
     if delay_sec <= 0.0:
@@ -95,16 +102,12 @@ def generate_launch_description():
         condition=IfCondition(LaunchConfiguration("foxglove")),
     )
 
-    # Mirror of MoveIt's octomap for Foxglove, built from MoveIt's robot-filtered cloud
-    octomap_server = Node(
-        package="octomap_server",
-        executable="octomap_server_node",
-        parameters=[{
-            "resolution": 0.01,
-            "frame_id": "world",
-            "sensor_model.max_range": 1.2,
-        }],
-        remappings=[("cloud_in", "/camera/filtered_points")],
+    # Display the authoritative MoveIt map, including loaded maps and live changes.
+    octomap_markers = Node(
+        package="igus_rebel",
+        executable="octomap_markers",
+        output="screen",
+        parameters=[{"cube_scale": ParameterValue(LaunchConfiguration("octomap_cube_scale"), value_type=float)}],
         condition=IfCondition(LaunchConfiguration("foxglove")),
     )
 
@@ -139,14 +142,24 @@ def generate_launch_description():
                 description="Start RViz from move_group.launch.py",
             ),
             DeclareLaunchArgument(
+                "octomap_cube_scale",
+                default_value="1.0",
+                description="Foxglove cube size multiplier; visualization only",
+            ),
+            DeclareLaunchArgument(
                 "foxglove",
                 default_value="true",
-                description="Start foxglove_bridge (port 8765) and octomap_server for visualisation",
+                description="Start Foxglove bridge (port 8765), MoveIt octomap markers, and controls",
             ),
             DeclareLaunchArgument(
                 "launch_realsense",
                 default_value="true",
                 description="If false, skip camera; run rs_launch.py yourself with any args",
+            ),
+            DeclareLaunchArgument(
+                "realsense_initial_reset",
+                default_value="false",
+                description="Opt-in camera hardware reset on startup",
             ),
             DeclareLaunchArgument(
                 "realsense_start_delay",
@@ -164,7 +177,7 @@ def generate_launch_description():
             shelf_launch,
             gripper_node,
             foxglove_bridge,
-            octomap_server,
+            octomap_markers,
             foxglove_control,
         ]
     )

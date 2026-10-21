@@ -56,7 +56,13 @@ Launch moveit motion planner and teleoperation mode:
 ```bash
 ros2 launch igus_rebel_moveit_config igus_rebel_motion_planner.launch.py use_gui:=true
 ```
-Neu:
+Complete setup (robot, MoveIt/RViz, camera/octomap, plant segmentation and object mapping):
+```bash
+ros2 launch plant_manipulation bringup.launch.py
+```
+See [plant_manipulation](plant_manipulation/README.md#start-everything) for options and saved maps.
+
+Robot + MoveIt + camera only:
 ```bash
 ros2 launch igus_rebel bringup_rebel_moveit.launch.py
 ```
